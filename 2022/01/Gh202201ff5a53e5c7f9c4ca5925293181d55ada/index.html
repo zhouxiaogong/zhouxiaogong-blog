@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>151. 翻转字符串里的单词 | Zhouxiaogong&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1234567891011121314151617181920212223242526272829class Solution &amp;#123;public:    string reverseWords(string s) &amp;#123;        vector&lt;string&gt; ans;        int size&#x3D;s.size();        int i&#x3D;0;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="151. 翻转字符串里的单词">
+<meta property="og:url" content="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh202201ff5a53e5c7f9c4ca5925293181d55ada/index.html">
+<meta property="og:site_name" content="Zhouxiaogong&#39;s Blog">
+<meta property="og:description" content="1234567891011121314151617181920212223242526272829class Solution &amp;#123;public:    string reverseWords(string s) &amp;#123;        vector&lt;string&gt; ans;        int size&#x3D;s.size();        int i&#x3D;0;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-06T14:35:03.000Z">
+<meta property="article:modified_time" content="2022-01-06T14:35:21.376Z">
+<meta property="article:author" content="Zhou Qian">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/zhouxiaogong-blog/atom.xml" title="Zhouxiaogong's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/zhouxiaogong-blog/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/zhouxiaogong-blog/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/zhouxiaogong-blog/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/zhouxiaogong-blog/" id="logo">Zhouxiaogong&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/zhouxiaogong-blog/" id="subtitle">Leetcode刷题记录</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/zhouxiaogong-blog/">Home</a>
+        
+          <a class="main-nav-link" href="/zhouxiaogong-blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/zhouxiaogong-blog/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zhouxiaogong.github.io/zhouxiaogong-blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2022/01/Gh202201ff5a53e5c7f9c4ca5925293181d55ada" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/zhouxiaogong-blog/2022/01/Gh202201ff5a53e5c7f9c4ca5925293181d55ada/" class="article-date">
+  <time class="dt-published" datetime="2022-01-06T14:35:03.000Z" itemprop="datePublished">2022-01-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      151. 翻转字符串里的单词
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string reverseWords(string s) &#123;</span><br><span class="line">        vector&lt;string&gt; ans;</span><br><span class="line">        int size=s.size();</span><br><span class="line">        int i=0;</span><br><span class="line">        int j=size-1;</span><br><span class="line">        while(s[i]==&#x27; &#x27;)i++;</span><br><span class="line">        while(s[j]==&#x27; &#x27;)j--;//去除开头和结尾的空格</span><br><span class="line">        int k=i;</span><br><span class="line">        int h=i;</span><br><span class="line">        while(k&lt;=j)</span><br><span class="line">        &#123;</span><br><span class="line">            while(k&lt;=j&amp;&amp;s[k]!=&#x27; &#x27;)k++;</span><br><span class="line">            string temp=s.substr(h,k-h);</span><br><span class="line">            ans.push_back(temp);</span><br><span class="line">            while(s[k]==&#x27; &#x27;)k++;//去除中间的空格</span><br><span class="line">            h=k;</span><br><span class="line">        &#125;</span><br><span class="line">        int anssize=ans.size();</span><br><span class="line">        string res=&quot;&quot;;</span><br><span class="line">        for(int g=anssize-1;g&gt;=0;g--)</span><br><span class="line">        &#123;</span><br><span class="line">            res+=ans[g];</span><br><span class="line">            if(g!=0)res+=&#x27; &#x27;;</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh202201ff5a53e5c7f9c4ca5925293181d55ada/" data-id="cky32ndu700008znf7cofbgbh" data-title="151. 翻转字符串里的单词" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/zhouxiaogong-blog/archives/2022/01/">一月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/01/Gh202201ff5a53e5c7f9c4ca5925293181d55ada/">151. 翻转字符串里的单词</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Zhou Qian<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/zhouxiaogong-blog/" class="mobile-nav-link">Home</a>
+  
+    <a href="/zhouxiaogong-blog/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/zhouxiaogong-blog/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/zhouxiaogong-blog/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/zhouxiaogong-blog/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
