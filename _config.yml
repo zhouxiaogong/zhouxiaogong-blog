@@ -1,10 +1,10 @@
 title: Zhouxiaogong's Blog
-subtitle: ""
+subtitle: Leetcode刷题记录
 description: ""
 keywords: null
 author: Zhou Qian
-language: en
-timezone: ""
+language: zh-CN
+timezone: Etc/GMT-8
 url: https://zhouxiaogong.github.io/zhouxiaogong-blog
 permalink: :title/
 permalink_defaults: null
