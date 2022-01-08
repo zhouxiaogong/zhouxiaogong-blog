@@ -4,15 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>Zhouxiaogong&#39;s Blog</title>
+  <title>572. 另一棵树的子树 | Zhouxiaogong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Zhouxiaogong&#39;s Blog">
-<meta property="og:url" content="https://zhouxiaogong.github.io/zhouxiaogong-blog/index.html">
+  <meta name="description" content="此题与100题（相同的树类似），建议熟记递归模板。 123456789101112131415161718192021222324252627282930class Solution &amp;#123;public:    bool cmp(TreeNode* root,TreeNode* subRoot)    &amp;#123;        if(!root&amp;&amp;!subRoot)retu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="572. 另一棵树的子树">
+<meta property="og:url" content="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/index.html">
 <meta property="og:site_name" content="Zhouxiaogong&#39;s Blog">
+<meta property="og:description" content="此题与100题（相同的树类似），建议熟记递归模板。 123456789101112131415161718192021222324252627282930class Solution &amp;#123;public:    bool cmp(TreeNode* root,TreeNode* subRoot)    &amp;#123;        if(!root&amp;&amp;!subRoot)retu">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/01/08/4b2556d6180d6dea5d9bc42a560abbc5.png">
+<meta property="article:published_time" content="2022-01-08T13:22:22.000Z">
+<meta property="article:modified_time" content="2022-01-08T13:22:36.266Z">
 <meta property="article:author" content="Zhou Qian">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/01/08/4b2556d6180d6dea5d9bc42a560abbc5.png">
   
     <link rel="alternate" href="/zhouxiaogong-blog/atom.xml" title="Zhouxiaogong's Blog" type="application/atom+xml">
   
@@ -73,9 +79,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-2022/01/Gh20220188795a22cc0791192ab9bf070be81b49" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-2022/01/Gh20220188795a22cc0791192ab9bf070be81b49" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/" class="article-date">
   <time class="dt-published" datetime="2022-01-08T13:22:22.000Z" itemprop="datePublished">2022-01-08</time>
@@ -88,8 +92,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/">572. 另一棵树的子树</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      572. 另一棵树的子树
     </h1>
   
 
@@ -112,54 +116,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/" class="article-date">
-  <time class="dt-published" datetime="2022-01-06T15:05:05.000Z" itemprop="datePublished">2022-01-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/">151. 翻转字符串里的单词</a>
-    </h1>
+    <a href="/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">151. 翻转字符串里的单词</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>我的思路是：去除给定字符串开头和结尾的空格，从左到右进行遍历，将单词送入vector中进行保存，注意跳过多余的空格。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string reverseWords(string s) &#123;</span><br><span class="line">        vector&lt;string&gt; ans;</span><br><span class="line">        int size=s.size();</span><br><span class="line">        int i=0;</span><br><span class="line">        int j=size-1;</span><br><span class="line">        while(s[i]==&#x27; &#x27;)i++;</span><br><span class="line">        while(s[j]==&#x27; &#x27;)j--;//去除开头和结尾的空格</span><br><span class="line">        int k=i;</span><br><span class="line">        int h=i;</span><br><span class="line">        while(k&lt;=j)</span><br><span class="line">        &#123;</span><br><span class="line">            while(k&lt;=j&amp;&amp;s[k]!=&#x27; &#x27;)k++;</span><br><span class="line">            string temp=s.substr(h,k-h);</span><br><span class="line">            ans.push_back(temp);</span><br><span class="line">            while(s[k]==&#x27; &#x27;)k++;//去除中间的空格</span><br><span class="line">            h=k;</span><br><span class="line">        &#125;</span><br><span class="line">        int anssize=ans.size();</span><br><span class="line">        string res=&quot;&quot;;</span><br><span class="line">        for(int g=anssize-1;g&gt;=0;g--)</span><br><span class="line">        &#123;</span><br><span class="line">            res+=ans[g];</span><br><span class="line">            if(g!=0)res+=&#x27; &#x27;;</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>运行结果如下：</p>
-<p><img src="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/01/06/185bfec34b7f122d3424d5d63fa3d3af.png" alt="微信图片_20220106230225.png"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/" data-id="cky5uxf690000ernfbt38c4pu" data-title="151. 翻转字符串里的单词" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
 
 
 </section>
