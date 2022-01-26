@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="/zhouxiaogong-blog/fancybox/jquery.fancybox.min.css">
 
   
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.1"></head>
 
 <body>
   <div id="container">
@@ -75,6 +75,50 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/" class="article-date">
+  <time class="dt-published" datetime="2022-01-26T07:22:49.000Z" itemprop="datePublished">2022-01-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/">827. 最大人工岛</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>此题属于LeetCode中的难题，题目本身运用的知识点并不复杂（DFS或BFS），难点在于常规做法超时，需要用到一定的技巧降低时间复杂度。</p>
+<p>常规做法：遍历岛屿所有值为0的节点，将其暂时设为1，从该节点开始DFS，更新最大岛屿面积，再将该节点的值重置为0。该方法的问题在于，遍历的双层循环加上DFS的双层循环使得时间复杂度达到N的4次方，而且实际上循环过程中岛屿经历了重复的遍历，信息没有得到充分利用。该方法超出时间限制，在此不予以展示。</p>
+<p>DFS+标记（染色）：不难发现，每次操作时只有一个节点的值发生了改变，其他节点没有任何变化。因此，我们可以先对grid值为1的节点进行常规DFS，使用visited数组剪枝，使用path数组储存当前岛屿的所有节点。遍历结束后，对该岛屿内部所有节点打上面积和颜色的标签。循环结束后再对grid值为0的节点进行遍历，找出其上下左右四个邻居中值为1的节点，找到邻居的标签并用set进行去重，将不重合的邻居面积相加得到新的面积，更新最大岛屿面积。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int maxisland=0;</span><br><span class="line">    int x[4]=&#123;1,-1,0,0&#125;;</span><br><span class="line">    int y[4]=&#123;0,0,1,-1&#125;;</span><br><span class="line">    int tag=0;    </span><br><span class="line">    map&lt;pair&lt;int,int&gt;,int&gt; MAP;    //储存所有值为1的节点对应岛屿的面积</span><br><span class="line">    map&lt;pair&lt;int,int&gt;,int&gt; color;      //储存所有值为1的节点对应岛屿的颜色</span><br><span class="line"></span><br><span class="line">    void DFS(vector&lt;vector&lt;int&gt;&gt;&amp; grid,int curx,int cury,int &amp;n,int &amp;curarea,vector&lt;vector&lt;bool&gt;&gt; &amp;visited,vector&lt;pair&lt;int,int&gt;&gt; &amp;path)</span><br><span class="line">    &#123;</span><br><span class="line">        if(visited[curx][cury])return;</span><br><span class="line">        visited[curx][cury]=true;</span><br><span class="line">        path.push_back(&#123;curx,cury&#125;);</span><br><span class="line">        curarea++;</span><br><span class="line">        if(curarea&gt;maxisland)maxisland=curarea;</span><br><span class="line">        for(int i=0;i&lt;4;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            int nowx=curx+x[i];</span><br><span class="line">            int nowy=cury+y[i];</span><br><span class="line">            if(nowx&lt;0||nowy&lt;0||nowx&gt;=n||nowy&gt;=n||grid[nowx][nowy]==0)continue;</span><br><span class="line">            DFS(grid,nowx,nowy,n,curarea,visited,path);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int largestIsland(vector&lt;vector&lt;int&gt;&gt;&amp; grid) &#123;</span><br><span class="line">        int n=grid.size();</span><br><span class="line">        vector&lt;vector&lt;bool&gt;&gt; visited(n,vector&lt;bool&gt;(n,false));</span><br><span class="line">        //先找出已经存在的所有岛屿，每个岛屿内部的节点打上面积和颜色的标签</span><br><span class="line">        for(int i=0;i&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int j=0;j&lt;n;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                if(grid[i][j]==1&amp;&amp;visited[i][j]==false)    //对当前所有值为1且没有遍历到的节点进行DFS</span><br><span class="line">                &#123;</span><br><span class="line">                    int curarea=0;</span><br><span class="line">                    vector&lt;pair&lt;int,int&gt;&gt; path;    //path储存当前岛屿的所有节点</span><br><span class="line">                    DFS(grid,i,j,n,curarea,visited,path);</span><br><span class="line">                    for(auto each:path)MAP[each]=curarea;    //打上面积标签</span><br><span class="line">                    for(auto each:path)color[each]=tag;      //打上颜色标签</span><br><span class="line">                    tag++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //对所有的值为0的节点进行遍历，找到它上下左右四个方向上值为1的临近节点，不重复地将它相邻的岛屿连接，与maxisland进行比较</span><br><span class="line">        for(int i=0;i&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int j=0;j&lt;n;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                if(grid[i][j]==0)</span><br><span class="line">                &#123;</span><br><span class="line">                    set&lt;int&gt; S;    //set起到去重的作用</span><br><span class="line">                    int temparea=1;    //起始面积是1不是0</span><br><span class="line">                    for(int k=0;k&lt;4;k++)</span><br><span class="line">                    &#123;</span><br><span class="line">                        int nowx=i+x[k];</span><br><span class="line">                        int nowy=j+y[k];</span><br><span class="line">                        if(nowx&lt;0||nowy&lt;0||nowx&gt;=n||nowy&gt;=n||grid[nowx][nowy]==0)continue;</span><br><span class="line">                        int curA=MAP[&#123;nowx,nowy&#125;];</span><br><span class="line">                        int curC=color[&#123;nowx,nowy&#125;];</span><br><span class="line">                        if(S.count(curC)==0)</span><br><span class="line">                        &#123;</span><br><span class="line">                            S.insert(curC);</span><br><span class="line">                            temparea+=curA;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    maxisland=max(maxisland,temparea);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return maxisland;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>程序运行结果：</p>
+<p><img src="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/01/26/3a6f983175038533709716706bf248ae.png" alt="运行结果.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/" data-id="ckyv80gyl0002a9n218vi78ht" data-title="827. 最大人工岛" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/zhouxiaogong-blog/2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12/" class="article-date">
@@ -115,7 +159,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12/" data-id="ckycmlevs0000aqnf58dg2yan" data-title="225. 用队列实现栈" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12/" data-id="ckyv80gye0000a9n268yo9otp" data-title="225. 用队列实现栈" class="article-share-link">分享</a>
       
       
       
@@ -157,7 +201,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/" data-id="ckycmlevx0002aqnfdur9e6ge" data-title="572. 另一棵树的子树" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/" data-id="ckyv80gym0003a9n210tl9td2" data-title="572. 另一棵树的子树" class="article-share-link">分享</a>
       
       
       
@@ -200,7 +244,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/" data-id="ckycmlevw0001aqnf10aj8wmv" data-title="151. 翻转字符串里的单词" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/" data-id="ckyv80gyk0001a9n2e2ttfugw" data-title="151. 翻转字符串里的单词" class="article-share-link">分享</a>
       
       
       
@@ -241,6 +285,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/">827. 最大人工岛</a>
+          </li>
         
           <li>
             <a href="/zhouxiaogong-blog/2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12/">225. 用队列实现栈</a>
