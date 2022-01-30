@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>269. 火星词典 | Zhouxiaogong&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="此题的基本思路并不复杂，和一般拓扑排序题目的区别主要有两点： 可能会出现重复添加同一条边的情况，因此要对边进行去重；未使用过的英文字母其入度天然为0，这些节点不能添加到队列当中。我的方法是使用set储存边，利用set本身的特点去重；利用set储存出现过的节点，入队时进行判断，问题解决之后就可以愉快地套用模板了。 1234567891011121314151617181920212223242526">
+<meta property="og:type" content="article">
+<meta property="og:title" content="269. 火星词典">
+<meta property="og:url" content="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/index.html">
+<meta property="og:site_name" content="Zhouxiaogong&#39;s Blog">
+<meta property="og:description" content="此题的基本思路并不复杂，和一般拓扑排序题目的区别主要有两点： 可能会出现重复添加同一条边的情况，因此要对边进行去重；未使用过的英文字母其入度天然为0，这些节点不能添加到队列当中。我的方法是使用set储存边，利用set本身的特点去重；利用set储存出现过的节点，入队时进行判断，问题解决之后就可以愉快地套用模板了。 1234567891011121314151617181920212223242526">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/01/30/a7f4633f630fa88d763ff2fff3ee5f08.png">
+<meta property="article:published_time" content="2022-01-30T08:07:13.000Z">
+<meta property="article:modified_time" content="2022-01-30T08:07:26.945Z">
+<meta property="article:author" content="Zhou Qian">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/01/30/a7f4633f630fa88d763ff2fff3ee5f08.png">
+  
+    <link rel="alternate" href="/zhouxiaogong-blog/atom.xml" title="Zhouxiaogong's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/zhouxiaogong-blog/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/zhouxiaogong-blog/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/zhouxiaogong-blog/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/zhouxiaogong-blog/" id="logo">Zhouxiaogong&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/zhouxiaogong-blog/" id="subtitle">Leetcode刷题记录</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/zhouxiaogong-blog/">Home</a>
+        
+          <a class="main-nav-link" href="/zhouxiaogong-blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/zhouxiaogong-blog/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zhouxiaogong.github.io/zhouxiaogong-blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/" class="article-date">
+  <time class="dt-published" datetime="2022-01-30T08:07:13.000Z" itemprop="datePublished">2022-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      269. 火星词典
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>此题的基本思路并不复杂，和一般拓扑排序题目的区别主要有两点：</p>
+<p>可能会出现重复添加同一条边的情况，因此要对边进行去重；<br>未使用过的英文字母其入度天然为0，这些节点不能添加到队列当中。<br>我的方法是使用set储存边，利用set本身的特点去重；利用set储存出现过的节点，入队时进行判断，问题解决之后就可以愉快地套用模板了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string alienOrder(vector&lt;string&gt;&amp; words) &#123;</span><br><span class="line">        int len=words.size();</span><br><span class="line"></span><br><span class="line">        set&lt;char&gt; appear;</span><br><span class="line">        string res;</span><br><span class="line">        vector&lt;int&gt; indu(26,0);</span><br><span class="line">        vector&lt;set&lt;int&gt;&gt; edge(26);    //edge储存每个节点的边，set起到自动去重的作用</span><br><span class="line"></span><br><span class="line">        //将所有字符串中出现的字母加入appear当中</span><br><span class="line">        for(int i=0;i&lt;len;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int j=0;j&lt;words[i].size();j++)</span><br><span class="line">            &#123;</span><br><span class="line">                appear.insert(words[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for(int i=0;i+1&lt;words.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            int s1=words[i].size();</span><br><span class="line">            int s2=words[i+1].size();</span><br><span class="line">            int j;</span><br><span class="line">            for(j=0;j&lt;s1&amp;&amp;j&lt;s2;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                if(words[i][j]!=words[i+1][j])</span><br><span class="line">                &#123;</span><br><span class="line">                    char fir=words[i][j];</span><br><span class="line">                    char sec=words[i+1][j];</span><br><span class="line">                    edge[fir-&#x27;a&#x27;].insert(sec-&#x27;a&#x27;);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if(j==s2&amp;&amp;s1&gt;s2)return &quot;&quot;;   //此处对应第二种不合法情况</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for(int i=0;i&lt;=25;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(auto each:edge[i])</span><br><span class="line">            &#123;</span><br><span class="line">                indu[each]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        queue&lt;int&gt; Q;</span><br><span class="line">        for(int i=0;i&lt;=25;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(indu[i]==0&amp;&amp;appear.find(&#x27;a&#x27;+i)!=appear.end())Q.push(i);    //只有出现过且入度为1的节点才加入到队列当中</span><br><span class="line">        &#125;</span><br><span class="line">        while(!Q.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            int size=Q.size();</span><br><span class="line">            for(int i=0;i&lt;size;i++)</span><br><span class="line">            &#123;</span><br><span class="line">                int cur=Q.front();</span><br><span class="line">                Q.pop();</span><br><span class="line">                res.push_back(cur+&#x27;a&#x27;);</span><br><span class="line">                for(auto each:edge[cur])</span><br><span class="line">                &#123;</span><br><span class="line">                    indu[each]--;</span><br><span class="line">                    if(indu[each]==0)Q.push(each);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(res.size()!=appear.size())return &quot;&quot;;    //res中的字符个数不等于appear中的字符个数对应第一种不合法情况</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/01/30/a7f4633f630fa88d763ff2fff3ee5f08.png" alt="运行结果.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/" data-id="ckz0zd45m0003condcmp5dsu2" data-title="269. 火星词典" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">827. 最大人工岛</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/zhouxiaogong-blog/archives/2022/01/">一月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/">269. 火星词典</a>
+          </li>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/">827. 最大人工岛</a>
+          </li>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12/">225. 用队列实现栈</a>
+          </li>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/">572. 另一棵树的子树</a>
+          </li>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/">151. 翻转字符串里的单词</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Zhou Qian<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/zhouxiaogong-blog/" class="mobile-nav-link">Home</a>
+  
+    <a href="/zhouxiaogong-blog/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/zhouxiaogong-blog/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/zhouxiaogong-blog/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/zhouxiaogong-blog/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

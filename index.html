@@ -75,6 +75,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/" class="article-date">
+  <time class="dt-published" datetime="2022-01-30T08:07:13.000Z" itemprop="datePublished">2022-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/">269. 火星词典</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>此题的基本思路并不复杂，和一般拓扑排序题目的区别主要有两点：</p>
+<p>可能会出现重复添加同一条边的情况，因此要对边进行去重；<br>未使用过的英文字母其入度天然为0，这些节点不能添加到队列当中。<br>我的方法是使用set储存边，利用set本身的特点去重；利用set储存出现过的节点，入队时进行判断，问题解决之后就可以愉快地套用模板了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string alienOrder(vector&lt;string&gt;&amp; words) &#123;</span><br><span class="line">        int len=words.size();</span><br><span class="line"></span><br><span class="line">        set&lt;char&gt; appear;</span><br><span class="line">        string res;</span><br><span class="line">        vector&lt;int&gt; indu(26,0);</span><br><span class="line">        vector&lt;set&lt;int&gt;&gt; edge(26);    //edge储存每个节点的边，set起到自动去重的作用</span><br><span class="line"></span><br><span class="line">        //将所有字符串中出现的字母加入appear当中</span><br><span class="line">        for(int i=0;i&lt;len;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int j=0;j&lt;words[i].size();j++)</span><br><span class="line">            &#123;</span><br><span class="line">                appear.insert(words[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for(int i=0;i+1&lt;words.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            int s1=words[i].size();</span><br><span class="line">            int s2=words[i+1].size();</span><br><span class="line">            int j;</span><br><span class="line">            for(j=0;j&lt;s1&amp;&amp;j&lt;s2;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                if(words[i][j]!=words[i+1][j])</span><br><span class="line">                &#123;</span><br><span class="line">                    char fir=words[i][j];</span><br><span class="line">                    char sec=words[i+1][j];</span><br><span class="line">                    edge[fir-&#x27;a&#x27;].insert(sec-&#x27;a&#x27;);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if(j==s2&amp;&amp;s1&gt;s2)return &quot;&quot;;   //此处对应第二种不合法情况</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for(int i=0;i&lt;=25;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(auto each:edge[i])</span><br><span class="line">            &#123;</span><br><span class="line">                indu[each]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        queue&lt;int&gt; Q;</span><br><span class="line">        for(int i=0;i&lt;=25;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(indu[i]==0&amp;&amp;appear.find(&#x27;a&#x27;+i)!=appear.end())Q.push(i);    //只有出现过且入度为1的节点才加入到队列当中</span><br><span class="line">        &#125;</span><br><span class="line">        while(!Q.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            int size=Q.size();</span><br><span class="line">            for(int i=0;i&lt;size;i++)</span><br><span class="line">            &#123;</span><br><span class="line">                int cur=Q.front();</span><br><span class="line">                Q.pop();</span><br><span class="line">                res.push_back(cur+&#x27;a&#x27;);</span><br><span class="line">                for(auto each:edge[cur])</span><br><span class="line">                &#123;</span><br><span class="line">                    indu[each]--;</span><br><span class="line">                    if(indu[each]==0)Q.push(each);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(res.size()!=appear.size())return &quot;&quot;;    //res中的字符个数不等于appear中的字符个数对应第一种不合法情况</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/01/30/a7f4633f630fa88d763ff2fff3ee5f08.png" alt="运行结果.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/" data-id="ckz0zd45m0003condcmp5dsu2" data-title="269. 火星词典" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/" class="article-date">
@@ -107,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/" data-id="ckyv80gyl0002a9n218vi78ht" data-title="827. 最大人工岛" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/" data-id="ckz0zd45l0002condf6g47g0z" data-title="827. 最大人工岛" class="article-share-link">分享</a>
       
       
       
@@ -159,7 +202,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12/" data-id="ckyv80gye0000a9n268yo9otp" data-title="225. 用队列实现栈" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12/" data-id="ckz0zd45f0000cond1nxq45sj" data-title="225. 用队列实现栈" class="article-share-link">分享</a>
       
       
       
@@ -201,7 +244,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/" data-id="ckyv80gym0003a9n210tl9td2" data-title="572. 另一棵树的子树" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/" data-id="ckz0zd45n0004cond5pbrhtys" data-title="572. 另一棵树的子树" class="article-share-link">分享</a>
       
       
       
@@ -244,7 +287,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/" data-id="ckyv80gyk0001a9n2e2ttfugw" data-title="151. 翻转字符串里的单词" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/" data-id="ckz0zd45j0001condf5b36kgh" data-title="151. 翻转字符串里的单词" class="article-share-link">分享</a>
       
       
       
@@ -285,6 +328,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/">269. 火星词典</a>
+          </li>
         
           <li>
             <a href="/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/">827. 最大人工岛</a>
