@@ -75,6 +75,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2022/02/Gh202202af8ebfd566e634e1b00da428e3147f29" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/zhouxiaogong-blog/2022/02/Gh202202af8ebfd566e634e1b00da428e3147f29/" class="article-date">
+  <time class="dt-published" datetime="2022-02-09T11:50:00.000Z" itemprop="datePublished">2022-02-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/zhouxiaogong-blog/2022/02/Gh202202af8ebfd566e634e1b00da428e3147f29/">212. 单词搜索 II</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本题的解法并不复杂，使用DFS回溯即可解决，难点在于如何在解决问题的同时尽可能降低时间复杂度。对于回溯算法来说，在合适的地方剪枝显得尤为重要。这里给出我的剪枝思路：</p>
+<ul>
+<li>使用visited数组记录已经遍历过的节点；</li>
+<li>提示告诉我们，字符串的长度不超过10，因此当前字符串长度大于10的时候及时返回；</li>
+<li>我们可以把可能出现的合法前缀储存在一个集合当中，当前字符串不合法时及时跳过；</li>
+<li>使用unordered_set可以进一步降低时间复杂度。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int x[4]=&#123;1,-1,0,0&#125;;</span><br><span class="line">    int y[4]=&#123;0,0,1,-1&#125;;</span><br><span class="line"></span><br><span class="line">    void DFS(int a,int b,vector&lt;vector&lt;bool&gt;&gt;&amp; visited,string path,unordered_set&lt;string&gt;&amp; ans,unordered_set&lt;string&gt;&amp; part,unordered_set&lt;string&gt;&amp; sentence,vector&lt;vector&lt;char&gt;&gt;&amp; board)</span><br><span class="line">    &#123;</span><br><span class="line">        int m=board.size();</span><br><span class="line">        int n=board[0].size();</span><br><span class="line">        if(visited[a][b])return;    //字符不能重复使用</span><br><span class="line">        visited[a][b]=true;</span><br><span class="line">        path.push_back(board[a][b]);</span><br><span class="line">        if(path.size()&gt;10)return;    //字符串长度大于10时返回</span><br><span class="line">        if(sentence.find(path)!=sentence.end())ans.insert(path);</span><br><span class="line">        for(int i=0;i&lt;4;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            int c=a+x[i];</span><br><span class="line">            int d=b+y[i];</span><br><span class="line">            if(c&lt;0||d&lt;0||c&gt;=m||d&gt;=n||part.find(path)==part.end())continue;    //越界或者当前字符串非法时跳过</span><br><span class="line">            DFS(c,d,visited,path,ans,part,sentence,board);</span><br><span class="line">        &#125;</span><br><span class="line">        path.pop_back();</span><br><span class="line">        visited[a][b]=false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    vector&lt;string&gt; findWords(vector&lt;vector&lt;char&gt;&gt;&amp; board, vector&lt;string&gt;&amp; words) &#123;</span><br><span class="line">        int m=board.size();</span><br><span class="line">        int n=board[0].size();</span><br><span class="line">        unordered_set&lt;string&gt; ans;    //set对符合条件的字符串进行去重</span><br><span class="line">        vector&lt;vector&lt;bool&gt;&gt; visited(m,vector&lt;bool&gt;(n,false));</span><br><span class="line">        unordered_set&lt;string&gt; sentence(words.begin(),words.end());</span><br><span class="line">        unordered_set&lt;string&gt; part;    //储存所有合法的前缀</span><br><span class="line">        for(int i=0;i&lt;words.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int j=0;j&lt;words[i].size();j++)</span><br><span class="line">            &#123;</span><br><span class="line">                string temp=words[i].substr(0,j+1);</span><br><span class="line">                part.insert(temp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i=0;i&lt;m;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int j=0;j&lt;n;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                string path=&quot;&quot;;</span><br><span class="line">                DFS(i,j,visited,path,ans,part,sentence,board);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;string&gt; res(ans.begin(),ans.end());</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img src="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/02/09/202ee8b76363b8263be3d0e49e3bbc99.png" alt="运行结果.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/02/Gh202202af8ebfd566e634e1b00da428e3147f29/" data-id="ckzfhpy9800059ancfamvfkhy" data-title="212. 单词搜索 II" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2022/02/Gh202202d89ba28c5f3aa7a62e1eed4d969372e8" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/zhouxiaogong-blog/2022/02/Gh202202d89ba28c5f3aa7a62e1eed4d969372e8/" class="article-date">
@@ -117,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/02/Gh202202d89ba28c5f3aa7a62e1eed4d969372e8/" data-id="ckzdpbrqj0005agndd6j4h6oe" data-title="1247. 交换字符使得字符串相同" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/02/Gh202202d89ba28c5f3aa7a62e1eed4d969372e8/" data-id="ckzfhpy9900069anchusa0d7p" data-title="1247. 交换字符使得字符串相同" class="article-share-link">分享</a>
       
       
       
@@ -160,7 +209,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/" data-id="ckzdpbrqh0003agnd4nlm4cgm" data-title="269. 火星词典" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/" data-id="ckzfhpy9600039anc9f942je0" data-title="269. 火星词典" class="article-share-link">分享</a>
       
       
       
@@ -204,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/" data-id="ckzdpbrqf0002agnd0zpr4t81" data-title="827. 最大人工岛" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220161468587fd5ce5bc7878632c585ffb3c/" data-id="ckzfhpy9500029ancbx0440vd" data-title="827. 最大人工岛" class="article-share-link">分享</a>
       
       
       
@@ -256,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12/" data-id="ckzdpbrq80000agnd1wyhh88u" data-title="225. 用队列实现栈" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12/" data-id="ckzfhpy9000009anca6x522s6" data-title="225. 用队列实现栈" class="article-share-link">分享</a>
       
       
       
@@ -298,7 +347,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/" data-id="ckzdpbrqi0004agnd1wz66l0p" data-title="572. 另一棵树的子树" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/" data-id="ckzfhpy9700049anc2b7i2088" data-title="572. 另一棵树的子树" class="article-share-link">分享</a>
       
       
       
@@ -341,7 +390,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/" data-id="ckzdpbrqe0001agndak8b71zd" data-title="151. 翻转字符串里的单词" class="article-share-link">分享</a>
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/01/Gh2022013e8884abdf7c7594c98d29aa7f2f5d17/" data-id="ckzfhpy9400019anchwtthfhg" data-title="151. 翻转字符串里的单词" class="article-share-link">分享</a>
       
       
       
@@ -384,6 +433,10 @@
       <ul>
         
           <li>
+            <a href="/zhouxiaogong-blog/2022/02/Gh202202af8ebfd566e634e1b00da428e3147f29/">212. 单词搜索 II</a>
+          </li>
+        
+          <li>
             <a href="/zhouxiaogong-blog/2022/02/Gh202202d89ba28c5f3aa7a62e1eed4d969372e8/">1247. 交换字符使得字符串相同</a>
           </li>
         
@@ -397,10 +450,6 @@
         
           <li>
             <a href="/zhouxiaogong-blog/2022/01/Gh2022010e1f1dbe5c5fe5c5e516d83590ba5a12/">225. 用队列实现栈</a>
-          </li>
-        
-          <li>
-            <a href="/zhouxiaogong-blog/2022/01/Gh20220188795a22cc0791192ab9bf070be81b49/">572. 另一棵树的子树</a>
           </li>
         
       </ul>
