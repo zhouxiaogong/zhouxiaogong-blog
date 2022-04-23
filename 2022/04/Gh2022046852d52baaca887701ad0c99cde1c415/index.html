@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>1104. 二叉树寻路 | Zhouxiaogong&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1.1所在的层数为第一层，设层数为i，如果没有之字形的设定，那么每层最左端节点是pow(2,i-1)，最右端节点是pow(2,i);2.考虑到之字形排列的设定，不难发现，当前层节点的父节点实际上是层内对称节点的父节点。举个例子：第四层的数字为 8 9 10 11 12 13 14 15，所以14在第三层的对称节点是9(8+15-14&#x3D;9),9在上一层的父节点是4(9&#x2F;2&#x3D;4)，以此类推。这样做的好">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1104. 二叉树寻路">
+<meta property="og:url" content="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/04/Gh2022046852d52baaca887701ad0c99cde1c415/index.html">
+<meta property="og:site_name" content="Zhouxiaogong&#39;s Blog">
+<meta property="og:description" content="1.1所在的层数为第一层，设层数为i，如果没有之字形的设定，那么每层最左端节点是pow(2,i-1)，最右端节点是pow(2,i);2.考虑到之字形排列的设定，不难发现，当前层节点的父节点实际上是层内对称节点的父节点。举个例子：第四层的数字为 8 9 10 11 12 13 14 15，所以14在第三层的对称节点是9(8+15-14&#x3D;9),9在上一层的父节点是4(9&#x2F;2&#x3D;4)，以此类推。这样做的好">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/04/24/1e3d6f72a7bf21fb2feccd754693fab5.jpg">
+<meta property="article:published_time" content="2022-04-23T16:13:59.000Z">
+<meta property="article:modified_time" content="2022-04-23T16:14:12.144Z">
+<meta property="article:author" content="Zhou Qian">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/04/24/1e3d6f72a7bf21fb2feccd754693fab5.jpg">
+  
+    <link rel="alternate" href="/zhouxiaogong-blog/atom.xml" title="Zhouxiaogong's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/zhouxiaogong-blog/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/zhouxiaogong-blog/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/zhouxiaogong-blog/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/zhouxiaogong-blog/" id="logo">Zhouxiaogong&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/zhouxiaogong-blog/" id="subtitle">Leetcode刷题记录</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/zhouxiaogong-blog/">Home</a>
+        
+          <a class="main-nav-link" href="/zhouxiaogong-blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/zhouxiaogong-blog/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zhouxiaogong.github.io/zhouxiaogong-blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2022/04/Gh2022046852d52baaca887701ad0c99cde1c415" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/zhouxiaogong-blog/2022/04/Gh2022046852d52baaca887701ad0c99cde1c415/" class="article-date">
+  <time class="dt-published" datetime="2022-04-23T16:13:59.000Z" itemprop="datePublished">2022-04-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      1104. 二叉树寻路
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>1.1所在的层数为第一层，设层数为i，如果没有之字形的设定，那么每层最左端节点是pow(2,i-1)，最右端节点是pow(2,i);<br>2.考虑到之字形排列的设定，不难发现，当前层节点的父节点实际上是层内对称节点的父节点。举个例子：第四层的数字为 8 9 10 11 12 13 14 15，所以14在第三层的对称节点是9(8+15-14=9),9在上一层的父节点是4(9/2=4)，以此类推。这样做的好处是不用考虑每一行是奇数还是偶数。<br>3.从label开始倒着寻路，将当前节点传入vector中，最后将vector翻转即可得到结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    vector&lt;int&gt; pathInZigZagTree(int label) &#123;</span><br><span class="line">        if(label==1)return &#123;1&#125;;</span><br><span class="line">        vector&lt;int&gt; res;</span><br><span class="line">        int i=2;</span><br><span class="line">        while(1)</span><br><span class="line">        &#123;</span><br><span class="line">            if(label&gt;=pow(2,i-1)&amp;&amp;label&lt;=pow(2,i)-1)break;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;  //找到层数</span><br><span class="line">        int cur=label;</span><br><span class="line">        while(i&gt;=1)</span><br><span class="line">        &#123;</span><br><span class="line">           res.push_back(cur);</span><br><span class="line">           cur=(pow(2,i)-1+pow(2,i-1)-cur)/2;  //在每一层找到镜像节点，该节点下标除以二得到上一层的父节点</span><br><span class="line">           i--;</span><br><span class="line">        &#125;</span><br><span class="line">        reverse(res.begin(),res.end());</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://smartsignature-img.oss-cn-hongkong.aliyuncs.com/article/2022/04/24/1e3d6f72a7bf21fb2feccd754693fab5.jpg" alt="运行结果.jpg"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zhouxiaogong.github.io/zhouxiaogong-blog/2022/04/Gh2022046852d52baaca887701ad0c99cde1c415/" data-id="cl2c2anam0008a2n89du5e9zn" data-title="1104. 二叉树寻路" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/zhouxiaogong-blog/2022/03/Gh202203d8941af6bc9b63d7b08c1c0a8f3ea490/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">2098. Subsequence of Size K With the Largest Even </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/zhouxiaogong-blog/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/zhouxiaogong-blog/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/zhouxiaogong-blog/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/zhouxiaogong-blog/archives/2022/01/">一月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/04/Gh2022046852d52baaca887701ad0c99cde1c415/">1104. 二叉树寻路</a>
+          </li>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/03/Gh202203d8941af6bc9b63d7b08c1c0a8f3ea490/">2098. Subsequence of Size K With the Largest Even </a>
+          </li>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/02/Gh202202af8ebfd566e634e1b00da428e3147f29/">212. 单词搜索 II</a>
+          </li>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/02/Gh202202d89ba28c5f3aa7a62e1eed4d969372e8/">1247. 交换字符使得字符串相同</a>
+          </li>
+        
+          <li>
+            <a href="/zhouxiaogong-blog/2022/01/Gh2022016cf5e2131df27c9a4f291d468e774204/">269. 火星词典</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Zhou Qian<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/zhouxiaogong-blog/" class="mobile-nav-link">Home</a>
+  
+    <a href="/zhouxiaogong-blog/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/zhouxiaogong-blog/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/zhouxiaogong-blog/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/zhouxiaogong-blog/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
